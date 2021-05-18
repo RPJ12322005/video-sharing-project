@@ -4,19 +4,20 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
 socketio = SocketIO(app)
 
+### name + an ID for each person
+peopleAvailable=[]
+
   
 @app.route('/')
 def home():
    return render_template('index.html')
 
-@socketio.on('my event')
-def handle_my_custom_event(json, methods=['GET', 'POST']):
-    print('received my event: ' + str(json))
-    socketio.emit('my response', json, callback=messageReceived)
-
-
-
-
+@app.route("/availability", methods=['POST'])
+def handleAvailability():
+   data = request.json
+   peopleAvailable.append(data)
+   socketio.emit("people", peopleAvailable)
+   return jsonify(data)
 
 
 
