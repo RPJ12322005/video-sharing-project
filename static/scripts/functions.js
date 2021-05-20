@@ -14,9 +14,12 @@
           });
           
 
-        socket.on("people", (data) => {
-            console.log(data);
-          }); //this segment of code handles a "people" event from the server (this and the two lines above)
+        // socket.on("people", (data) => { //Anonymous expression, when this event happens call this function
+        //     console.log(data);
+        //     updatePeopleList();
+        //   }); //this segment of code handles a "people" event from the server (this and the two lines above)
+        socket.on("people", (data) => updatePeopleList(data)); //when the list gets a new element the "update people" funstion is called
+
     }
 
     function particpantsInfo(){
@@ -36,6 +39,16 @@
         });
         
     }    
+
+function updatePeopleList(people){
+  $("#people").empty();
+  for (const person of people) {
+    $("#people").append(`<li>${person.name}</li>`);
+  }
+ 
+}
+
+
 
 
     initialize();
