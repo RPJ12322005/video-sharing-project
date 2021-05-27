@@ -15,12 +15,18 @@ def home():
 @app.route("/availability", methods=['POST'])
 def handleAvailability():
    data = request.json
-   peopleAvailable.append(data)
+   updatePeople(data)
    socketio.emit("people", peopleAvailable)
    return jsonify(data)
 
 
-
+def updatePeople(data):
+   for person in peopleAvailable:
+      if person["id"] == data["id"]:
+         person["name"]=data["name"]
+         person["isAvailable"] = data["isAvailable"]
+         return
+   peopleAvailable.append(data)
 
 
 
