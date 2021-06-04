@@ -24,17 +24,19 @@ var isAvailable=false;
     $("#people").empty();
     for (const person of people) {
       var availability = (person.isAvailable ? "Available" : "Unavailable");
-      $("#people").append(`<li>${person.name}: ${availability}  </li>`);
+      var button = `<button onclick="watchMovie('${person.id}')" type="button" class="watch-movie" id="watch">Lets watch a movie</button>`;
+      $("#people").append(`<li>${person.name}: ${availability} ${button} </li>`);
     }
    
   }
 
   function changeAvailability(){
-    // var text=$('#thingText').val();
-     //var color=$("#thingColor").val();
+    var personName = $('#personName').val();
+    
     isAvailable = !isAvailable;
+    updateButton();
 
-     var body = { "name": "Ryleigh", "id":socket.id, "isAvailable": isAvailable  };
+     var body = { "name": personName, "id": socket.id, "isAvailable": isAvailable  };
  
      $.ajax({
          type: "POST",
@@ -44,8 +46,19 @@ var isAvailable=false;
          dataType: "json",
      });
   }    
-
+  
+  function updateButton(){
+    var buttonText = (isAvailable ? "Availability=True" : "Availability=False" );
+    $("#availability").html(buttonText);
+  }
  
+  function watchMovie(socketId){
+    
+  }
+
+
+
+
 
  // socket.on("people", (data) => { //Anonymous expression, when this event happens call this function
         //     console.log(data);
@@ -54,30 +67,4 @@ var isAvailable=false;
         //formerly on line 17
          //const io = require("socket.io-client"); //this is the module library loader that's being linked and it makes sure socketio exists
         //  This is the custom javascript code where interactions with the API and web sockets occur.
-
-// It is also where JQuery is used to update parts of the HTML page when server data is received.
-
-
-
-// The first part is the initialization that runs when the browser page loads.
-
-// Here, the client web socket connects to the server web socket.
-
-// It is also where the javascript will handle the “people” socket event from the server
-
-
-
-
-// The update people list function is called when the “people” socket event is received from the server.
-
-// JQuery is used to clear the current list displayed on the HTML page
-
-// We then loop through each person, and create a row to be displayed on the HTML with their available status
-
-
-
-
-// The change availability function is called when the HTML button is clicked. 
-
-// The available status is toggle, then an API call is made to the web server to update its list of people.
 
