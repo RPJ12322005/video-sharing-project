@@ -21,6 +21,18 @@ def handleAvailability():
    return jsonify(data)
 
 
+@app.route("/watchMovie", methods=['POST'])
+def handleWatchMovie():
+   data = request.json
+   receiverSocketId = data["receiverSocketId"]
+   socketio.emit('ask', data, room=receiverSocketId)
+   return jsonify(data)
+   ##socketIo.emit(`person.{data.receiverId}`, data)
+   ##io.sockets.socket(savedSocketId).emit(...)
+
+
+   ### we will need: recievers ID, senders name
+
 def updatePeople(data):
    for person in peopleAvailable:
       if person["id"] == data["id"]:

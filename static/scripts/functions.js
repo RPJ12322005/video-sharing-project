@@ -1,5 +1,6 @@
 var socket=null;
 var isAvailable=false;
+var personName="";
 
 (function(){
    
@@ -15,7 +16,8 @@ var isAvailable=false;
         });
        
         socket.on("people", (data) => updatePeopleList(data)); //when the list gets a new element the "update people" funstion is called
-    }
+        socket.on("ask", (data) => askToWatch(data));
+      }
 
     initialize();
   })();
@@ -31,7 +33,7 @@ var isAvailable=false;
   }
 
   function changeAvailability(){
-    var personName = $('#personName').val();
+     personName = $('#personName').val();
     
     isAvailable = !isAvailable;
     updateButton();
@@ -52,10 +54,21 @@ var isAvailable=false;
     $("#availability").html(buttonText);
   }
  
-  function watchMovie(socketId){
-    
+  function watchMovie(receiverSocketId){
+    var body = { "name": personName, "senderSocketId": socket.id, "receiverSocketId": receiverSocketId  };
+ 
+    $.ajax({
+        type: "POST",
+        url: "/watchMovie",
+        data: JSON.stringify(body),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
   }
 
+    function askToWatch(data){
+      
+    }
 
 
 
