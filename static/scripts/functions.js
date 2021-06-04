@@ -25,9 +25,11 @@ var personName="";
   function updatePeopleList(people){
     $("#people").empty();
     for (const person of people) {
+      if(person.id !== socket.id){
       var availability = (person.isAvailable ? "Available" : "Unavailable");
       var button = `<button onclick="watchMovie('${person.id}')" type="button" class="watch-movie" id="watch">Lets watch a movie</button>`;
       $("#people").append(`<li>${person.name}: ${availability} ${button} </li>`);
+    }
     }
    
   }
@@ -67,7 +69,7 @@ var personName="";
   }
 
     function askToWatch(data){
-      
+      // alert(`${data.name} wants to watch something!`);
     }
 
 
