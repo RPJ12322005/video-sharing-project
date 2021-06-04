@@ -1,5 +1,11 @@
 # video-sharing-project
 
+### Installing the Application
+`pip install Flask`
+`pip install Flask-SocketIO`
+`pip install simple-websocket`
+
+
 ### Running the Application
 to run this application, use git bash to get to the repository with the same name as the title and type in: </br>
 `py app.py`

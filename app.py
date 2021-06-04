@@ -2,7 +2,8 @@ from flask import Flask, render_template, jsonify,request
 from flask_socketio import SocketIO
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
+
 
 ### name + an ID for each person
 peopleAvailable=[]
