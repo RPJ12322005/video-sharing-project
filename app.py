@@ -33,6 +33,13 @@ def handleWatchMovie():
 
    ### we will need: recievers ID, senders name
 
+@app.route("/confirmMovie", methods=['POST'])   
+def handleMovieConfirmation():
+   data = request.json
+   receiverSocketId = data["receiverSocketId"]
+   socketio.emit('yes', data, room=receiverSocketId)
+   return jsonify(data)
+
 def updatePeople(data):
    for person in peopleAvailable:
       if person["id"] == data["id"]:

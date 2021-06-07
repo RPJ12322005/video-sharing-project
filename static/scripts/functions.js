@@ -17,6 +17,7 @@ var personName="";
        
         socket.on("people", (data) => updatePeopleList(data)); //when the list gets a new element the "update people" funstion is called
         socket.on("ask", (data) => askToWatch(data));
+        socket.on("yes", (data) => yesToWatch(data));
       }
 
     initialize();
@@ -69,9 +70,42 @@ var personName="";
   }
 
     function askToWatch(data){
-      // alert(`${data.name} wants to watch something!`);
+      $( ".openAsk" ).on( "click", function() {
+        var r = confirm(`${data.name} wants to watch something!`);
+        if (r == true) {
+          var body = { "name": personName, "senderSocketId": socket.id, "receiverSocketId":data.senderSocketId  };
+  
+          $.ajax({
+              type: "POST",
+              url: "/confirmMovie",
+              data: JSON.stringify(body),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+          });
+        } 
+      });
+      $( ".openAsk" ).trigger( "click" );
+
     }
 
+    function yesToWatch(data){
+      $( ".yesAsk" ).on( "click", function() {
+        var r = confirm(`Yes ${data.name} wants to watch something!`);
+        // if (r == true) {
+        //   var body = { "name": personName, "senderSocketId": socket.id, "receiverSocketId":data.senderSocketId  };
+  
+        //   $.ajax({
+        //       type: "POST",
+        //       url: "/confirmMovie",
+        //       data: JSON.stringify(body),
+        //       contentType: "application/json; charset=utf-8",
+        //       dataType: "json",
+        //   });
+        // } 
+      });
+      $( ".yesAsk" ).trigger( "click" );
+
+    }
 
 
 
