@@ -1,7 +1,7 @@
 var socket=null;
 var isAvailable=false;
 var personName="";
-
+var player 
 (function(){
    
     function initialize (){
@@ -24,6 +24,25 @@ var personName="";
     initialize();
   })();
   
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('video-placeholder', {
+        width: 600,
+        height: 400,
+        videoId: 'Xa0Q0J5tOP0',
+        playerVars: {
+            color: 'white',
+            playlist: 'taJ60kskkns,FG0fTKAqZ5g'
+        },
+        events: {
+            onReady: initializeVideo
+        }
+    });
+}
+
+function initializeVideo(){
+
+}
+
   function updatePeopleList(people){
     $("#people").empty();
     for (const person of people) {
@@ -122,7 +141,7 @@ function yesToWatch(data){
 }
  
  function playVideo(data){
-   alert("some message");
+   player.playVideo();
  }
 
     
