@@ -48,6 +48,16 @@ def updatePeople(data):
          return
    peopleAvailable.append(data)
 
+@app.route("/playSyncMovie", methods=['POST'])
+def playSyncVideo():
+   data = request.json
+   receiverSocketId = data["receiverSocketId"]
+   senderSocketId = data["senderSocketId"]
+   socketio.emit('play', data, room=receiverSocketId)
+   socketio.emit('play', data, room=senderSocketId)
+   return jsonify(data)
+
+
 
 
 

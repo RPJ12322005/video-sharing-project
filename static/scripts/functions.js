@@ -18,6 +18,7 @@ var personName="";
         socket.on("people", (data) => updatePeopleList(data)); //when the list gets a new element the "update people" funstion is called
         socket.on("ask", (data) => askToWatch(data));
         socket.on("yes", (data) => yesToWatch(data));
+        socket.on("play", (data) => playVideo(data));
       }
 
     initialize();
@@ -69,59 +70,62 @@ var personName="";
     });
   }
 
-    function askToWatch(data){
-      $( ".openAsk" ).on( "click", function() {
-        var r = confirm(`${data.name} wants to watch something!`);
-        if (r == true) {
+  function askToWatch(data){
+    
+    $.confirm({
+      title: 'Want to Watch?',
+      content: `Do you want to watch something with ${data.name}`,
+      buttons: {
+          confirm: function () {
+            var body = { "name": personName, "senderSocketId": socket.id, "receiverSocketId":data.senderSocketId  };
+
+            $.ajax({
+                type: "POST",
+                url: "/confirmMovie",
+                data: JSON.stringify(body),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+            });
+          },
+          cancel: function () {
+              // $.alert('Canceled!');
+          },
+        }
+    });
+  }
+ 
+
+      
+    
+
+function yesToWatch(data){
+  $.confirm({
+    title: 'Want to Watch?',
+    content: `Do you want to watch something with ${data.name}`,
+    buttons: {
+        confirm: function () {
           var body = { "name": personName, "senderSocketId": socket.id, "receiverSocketId":data.senderSocketId  };
-  
+
           $.ajax({
               type: "POST",
-              url: "/confirmMovie",
+              url: "/playSyncMovie",
               data: JSON.stringify(body),
               contentType: "application/json; charset=utf-8",
               dataType: "json",
           });
-        } 
-      });
-      $( ".openAsk" ).trigger( "click" );
-// 
-$.confirm({
-  title: 'Confirm!',
-  content: 'Simple confirm!',
-  buttons: {
-      confirm: function () {
-          $.alert('Confirmed!');
-      },
-      cancel: function () {
-          $.alert('Canceled!');
-      },
-    }
-  })
-};
+        },
+        cancel: function () {
+            // $.alert('Canceled!');
+        },
+      }
+  });
+}
  
-// 
-      
+ function playVideo(data){
+   alert("some message");
+ }
+
     
-
-    function yesToWatch(data){
-      $( ".yesAsk" ).on( "click", function() {
-        var r = confirm(`Yes ${data.name} wants to watch something!`);
-        // if (r == true) {
-        //   var body = { "name": personName, "senderSocketId": socket.id, "receiverSocketId":data.senderSocketId  };
-  
-        //   $.ajax({
-        //       type: "POST",
-        //       url: "/confirmMovie",
-        //       data: JSON.stringify(body),
-        //       contentType: "application/json; charset=utf-8",
-        //       dataType: "json",
-        //   });
-        // } 
-      });
-      $( ".yesAsk" ).trigger( "click" );
-
-    }
 
 
 
